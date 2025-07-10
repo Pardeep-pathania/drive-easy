@@ -12,4 +12,6 @@ ownerRouter.get("/cars", protect, getOwnerCars)
 ownerRouter.post("/toogle-car", protect, toggleCarAvailability)
 ownerRouter.post("/delete-car", protect, deleteCar)
 
+ownerRouter.get('/dashboard', protect, getDataboardData)
+
 export default ownerRouter;
