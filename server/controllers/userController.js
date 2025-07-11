@@ -1,12 +1,13 @@
 import User from "../models/User.js"
 import bcryptjs from 'bcryptjs'
 import jwt from'jsonwebtoken'
+import Car from "../models/Car.js"
 
 
 // Generate JWT Token
 const generateToken = (userId)=>{
-    const payload = userId
-    return jwt.sign(payload, process.env.JWT_SECRET)
+
+    return jwt.sign({id: userId}, process.env.JWT_SECRET)
 }
 
 // register user
@@ -63,8 +64,22 @@ export const loginUser = async(req,res)=>{
 
 export const getUserData = async(req,res) =>{
     try {
-        const {user} = req;
-        res.status(200).json({success:true, user})
+         if (!req.user) {
+            return res.status(401).json({ success: false, message: "Unauthorized" });
+        }
+        res.status(200).json({ success: true, user: req.user });
+    } catch (error) {
+         console.log(error.message)
+        res.status(500).json({success:false, message: error.message})
+    }
+}
+
+// get all cars 
+
+export const getCars = async(req,res) =>{
+    try {
+        const cars = await Car.find({isAvaliable: true})
+        res.status(200).json({success:true, cars})
     } catch (error) {
          console.log(error.message)
         res.status(500).json({success:false, message: error.message})

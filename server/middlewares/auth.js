@@ -3,18 +3,23 @@ import User from "../models/User.js";
 
 
 export const protect = async (req, res, next) => {
-    const token =req.headers.authorization;
-    if(!token){
-        return res.status(400).json({success: false, message:"not authorized"})
+     const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return res.status(401).json({ success: false, message: "Not authorized" });
     }
+    const token = authHeader.split(" ")[1];
     try {
-        const userId = jwt.decode(token, process.env.JWT_SECRET)
-
-        if(!userId){
-        return res.status(400).json({success: false, message:"not authorized"})         
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        if (!decoded?.id) {
+            return res.status(401).json({ success: false, message: "Not authorized, userId not found" });
         }
-      req.user = await User.findById(userId).select("-password")
-      next()
+        // Attach full user object for downstream use
+        const user = await User.findById(decoded.id).select("-password");
+        if (!user) {
+            return res.status(401).json({ success: false, message: "User not found" });
+        }
+        req.user = user;
+        next();
 
     } catch (error) {
         return res.status(500).json({success: false, message:"not authorized"})
