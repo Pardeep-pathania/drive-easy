@@ -147,7 +147,7 @@ export const getDashboardData = async (req, res) =>{
             totalBookings: bookings.length,
             pendingBookings: pendingBookings.length,
             completedBookings: completedBookings.length,
-            recentBookings: booking.slice(0,3), monthlyRevenue
+            recentBookings: bookings.slice(0,3), monthlyRevenue
         }
         res.status(200).json({success: true, dashboardData})
 

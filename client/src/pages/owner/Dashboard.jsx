@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { assets, dummyDashboardData } from '../../assets/assets'
 import Title from '../../components/owner/Title'
+import { useAppContext } from '../../context/AppContext'
+import toast from 'react-hot-toast'
 
 const Dashboard = () => {
 
-  const currency = import.meta.env.VITE_CURRENCY
+  const {axios, isOwner, currency} = useAppContext()
 
 const [data, setData] = useState({
   totalCars: 0,
@@ -22,9 +24,24 @@ const dashboardCards =[
   {title: "Confirmed", value:data.completedBookings, icon: assets.listIconColored},
 ]
 
+const fetchDashboardData = async()=>{
+  try {
+    const {data} = await axios.get('/api/owner/dashboard')
+    if(data.success){
+      setData(data.dashboardData)
+    }else{
+      toast.error(data.message)
+    }
+  } catch (error) {
+    toast.error(error.message)
+  }
+}
+
 useEffect(()=>{
-  setData(dummyDashboardData)
-},[]) 
+  if(isOwner){
+    fetchDashboardData()
+  }
+},[isOwner]) 
 
   return (
     <div className='px-4 pt-10 md:px-10 flex-1'>
@@ -32,7 +49,7 @@ useEffect(()=>{
 
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:gris-cols-4 gap-6 my-8 max-w-3xl">
         {dashboardCards.map((card, index)=>(
-          <div className="flex gap-2 items-center justify-between p-4 rounded-md border border-borderColor">
+          <div key={index} className="flex gap-2 items-center justify-between p-4 rounded-md border border-borderColor">
             <div>
               <h1 className='text-xs text-gray-500'>{card.title}</h1>
               <p className="text-lg font-semibold">{card.value}</p>
