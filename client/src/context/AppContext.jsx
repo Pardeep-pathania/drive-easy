@@ -42,6 +42,7 @@ export const AppProvider = ({ children }) => {
   const fetchCars = async () => {
     try {
       const { data } = await axios.get("/api/user/cars");
+      
       data.success ? setCars(data.cars) : toast.error(data.message);
     } catch (error) {
       toast.error(error.message);
@@ -63,9 +64,10 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     setToken(token);
+    fetchCars()
   }, []);
 
-  //useEffect to fetcj user data when token is available
+  //useEffect to fetch user data when token is available
   useEffect(() => {
     axios.defaults.headers.common["Authorization"] = token ? `Bearer ${token}` : "";;
       if (token) fetchUser();
