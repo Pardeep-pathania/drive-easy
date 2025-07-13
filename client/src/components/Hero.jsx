@@ -1,6 +1,7 @@
-import React, { use, useState } from 'react'
+import React, { useState } from 'react'
 import { assets, cityList } from '../assets/assets'
 import { useAppContext } from '../context/AppContext'
+import { motion } from 'motion/react'
 
 const Hero = () => {
 
@@ -14,7 +15,11 @@ const handleSearch = (e) =>{
 }
 
   return (
-    <div className='h-screen flex flex-col items-center justify-center gap-14 bg-light text-center'>
+    <motion.div
+     initial={{y:50, opacity:0}}
+     animate={{y:0, opacity:1}}
+     transition={{duration: 0.08, delay: 0.2}}
+    className='h-screen flex flex-col items-center justify-center gap-14 bg-light text-center'>
       <h1 className='text-4xl md:text-5xl font-semibold'>
         Luxury Cars on Rent
       </h1>
@@ -53,7 +58,7 @@ const handleSearch = (e) =>{
 
       <img src={assets.main_car} alt="car" className='max-h-74' />
 
-    </div>
+    </motion.div>
   )
 }
 

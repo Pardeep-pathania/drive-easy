@@ -215,11 +215,11 @@ const AddCar = () => {
             className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none"
           >
             <option value="">Select a Location</option>
-            <option value="Gas">Mumbai</option>
-            <option value="Diesel">Jammu</option>
-            <option value="Petrol">Punjab</option>
-            <option value="Electric">Chandigarh</option>
-            <option value="Hybrid">Delhi</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Jammu">Jammu</option>
+            <option value="Punjab">Punjab</option>
+            <option value="Chandigarh">Chandigarh</option>
+            <option value="Delhi">Delhi</option>
           </select>
         </div>
 

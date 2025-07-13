@@ -24,7 +24,7 @@ const fetchOwnerBookings = async ()=>{
 const changeBookingStatus = async(bookingId,
        status)=>{
    try {
-    const {data} = await axios.post('api/booking/change-status',{bookingId,
+    const {data} = await axios.post('api/bookings/change-status',{bookingId,
        status
     })
     if(data.duccess){

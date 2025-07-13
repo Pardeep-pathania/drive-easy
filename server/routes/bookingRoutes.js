@@ -5,9 +5,9 @@ import { protect } from '../middlewares/auth.js';
 const bookingRouter = express.Router()
 
 bookingRouter.post('/check-availability', checkAvailabilityOfCar)
-bookingRouter.post('/create', createBooking)
+bookingRouter.post('/create',protect, createBooking)
 bookingRouter.get('/user', protect, getUserBookings )
 bookingRouter.get('/owner', protect, getOwnerBookings )
-bookingRouter.get('/change-status', protect, changeBookingStatus )
+bookingRouter.post('/change-status', protect, changeBookingStatus )
 
 export default bookingRouter
